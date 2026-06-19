@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>LoopDeck</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMxMDBGMEQiLz48ZyBmaWxsPSJub25lIiBzdHJva2U9IiNGMEIyM0UiIHN0cm9rZS13aWR0aD0iMyI+PHJlY3QgeD0iMTkiIHk9IjE2IiB3aWR0aD0iMzQiIGhlaWdodD0iMzIiIHJ4PSI2Ii8+PHBhdGggZD0iTTM2IDMyIEMzMSAyNS41IDIxIDI1LjUgMjEgMzIgQzIxIDM4LjUgMzEgMzguNSAzNiAzMiBDNDEgMjUuNSA1MSAyNS41IDUxIDMyIEM1MSAzOC41IDQxIDM4LjUgMzYgMzIgWiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvZz48ZyBmaWxsPSIjRjBCMjNFIj48cmVjdCB4PSIxMCIgeT0iMjEiIHdpZHRoPSI1LjUiIGhlaWdodD0iNS41IiByeD0iMS42Ii8+PHJlY3QgeD0iMTAiIHk9IjI5LjI1IiB3aWR0aD0iNS41IiBoZWlnaHQ9IjUuNSIgcng9IjEuNiIvPjxyZWN0IHg9IjEwIiB5PSIzNy41IiB3aWR0aD0iNS41IiBoZWlnaHQ9IjUuNSIgcng9IjEuNiIvPjwvZz48L3N2Zz4K">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -46,14 +47,9 @@
   }
   .brand{display:flex;align-items:baseline;gap:10px;user-select:none}
   .brand .gate{
-    width:16px;height:22px;border:2px solid var(--accent);border-radius:3px;
-    position:relative;flex:0 0 auto;align-self:center;
+    height:23px;width:30px;flex:0 0 auto;align-self:center;
+    color:var(--accent);display:block;
   }
-  .brand .gate::before,.brand .gate::after{
-    content:"";position:absolute;left:-4px;width:4px;height:4px;background:var(--accent);border-radius:1px;
-  }
-  .brand .gate::before{top:3px}
-  .brand .gate::after{bottom:3px}
   .brand h1{font-size:17px;font-weight:700;letter-spacing:.02em;margin:0}
   .brand .tag{font-size:11px;color:var(--muted-2);letter-spacing:.08em;text-transform:uppercase}
   .spacer{flex:1}
@@ -218,7 +214,13 @@
 
   <header class="topbar">
     <div class="brand">
-      <span class="gate"></span>
+      <svg class="gate" viewBox="2 11 54 42" fill="none" aria-hidden="true">
+        <rect x="12" y="14" width="40" height="36" rx="6" stroke="currentColor" stroke-width="3"/>
+        <rect x="4" y="20" width="5.5" height="5.5" rx="1.6" fill="currentColor"/>
+        <rect x="4" y="29.25" width="5.5" height="5.5" rx="1.6" fill="currentColor"/>
+        <rect x="4" y="38.5" width="5.5" height="5.5" rx="1.6" fill="currentColor"/>
+        <path d="M32 32 C27 25 15 25 15 32 C15 39 27 39 32 32 C37 25 49 25 49 32 C49 39 37 39 32 32 Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+      </svg>
       <h1>LoopDeck</h1>
       <span class="tag">reference loop</span>
     </div>
