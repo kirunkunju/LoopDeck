@@ -182,11 +182,31 @@
   .thumb:hover{opacity:1;transform:translateY(-2px)}
   .thumb.active{border-color:var(--accent);opacity:1}
   .thumb img,.thumb video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
-  .thumb .idx{position:absolute;right:4px;top:3px;font-size:9px;background:rgba(16,15,13,.62);padding:1px 4px;border-radius:3px;color:var(--muted);letter-spacing:.04em;font-family:"Space Mono",monospace}
+  .thumb .idx{position:absolute;left:4px;top:3px;font-size:9px;background:rgba(16,15,13,.62);padding:1px 4px;border-radius:3px;color:var(--muted);letter-spacing:.04em;font-family:"Space Mono",monospace}
   .thumb .vidtag{position:absolute;left:4px;bottom:3px;font-size:9px;background:rgba(0,0,0,.6);padding:1px 4px;border-radius:3px;color:#fff;letter-spacing:.05em}
-  .thumb .rm{position:absolute;left:3px;top:3px;width:18px;height:18px;border:none;border-radius:5px;background:rgba(16,15,13,.7);color:var(--text);font-size:13px;line-height:1;display:none;align-items:center;justify-content:center;padding:0}
-  .thumb:hover .rm{display:flex}
-  .thumb .rm:hover{background:#c5443a}
+  /* delete control: tiny ×, upper-right. Appears after a brief hover dwell; always reachable on touch / via keyboard */
+  .thumb .rm{
+    position:absolute;right:3px;top:3px;width:18px;height:18px;padding:0;
+    border:1px solid rgba(243,239,230,.16);border-radius:6px;
+    background:rgba(16,15,13,.8);color:var(--text);
+    font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+    opacity:0;pointer-events:none;transform:scale(.82);
+    transition:opacity .15s var(--ease),transform .15s var(--ease),background .15s,border-color .15s;
+  }
+  @media (hover:hover){
+    .thumb:hover .rm{
+      opacity:1;pointer-events:auto;transform:scale(1);
+      transition:opacity .15s var(--ease) .35s,transform .15s var(--ease) .35s,background .15s,border-color .15s;
+    }
+  }
+  @media (hover:none){          /* touch devices have no hover, so keep it visible */
+    .thumb .rm{opacity:.92;pointer-events:auto;transform:none}
+  }
+  .thumb .rm:hover{background:#c5443a;border-color:#c5443a;color:#fff;transition-delay:0s}
+  .thumb .rm:focus-visible{opacity:1;pointer-events:auto;outline:2px solid var(--accent);outline-offset:1px}
+  .thumb .rm:active{transform:scale(.92)}
+  @media (prefers-reduced-motion:reduce){ .thumb .rm{transform:none!important} }
 
   /* drag overlay */
   .dragveil{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(16,15,13,.82);backdrop-filter:blur(3px);font-size:22px;font-weight:600;pointer-events:none}
@@ -596,6 +616,7 @@
     const idx=document.createElement("span"); idx.className="idx"; idx.textContent=oi+1; t.appendChild(idx);
     const rm=document.createElement("button"); rm.className="rm"; rm.innerHTML="&times;"; rm.title="Remove";
     rm.addEventListener("click",e=>{ e.stopPropagation(); removeItem(order[oi]); });
+    t.appendChild(rm);
     t.addEventListener("click",()=>jumpTo(+t.dataset.oi));
     return t;
   }
