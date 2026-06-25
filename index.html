@@ -219,6 +219,21 @@
   .help h3{margin:0 0 8px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
   .help kbd{font-family:"Space Mono",monospace;font-size:11px;background:var(--ink);border:1px solid var(--line-strong);border-radius:5px;padding:1px 6px;color:var(--accent);min-width:20px;display:inline-block;text-align:center}
   .help .k{display:flex;justify-content:space-between;gap:24px;color:var(--muted)}
+  /* frame-step heads-up readout */
+  #frameHud{
+    position:absolute;left:50%;bottom:18px;transform:translateX(-50%) translateY(6px);
+    display:flex;gap:9px;align-items:center;
+    background:rgba(16,15,13,.82);border:1px solid var(--line-strong);border-radius:9px;
+    padding:6px 12px;font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.03em;color:var(--text);
+    opacity:0;pointer-events:none;-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+    transition:opacity .18s var(--ease),transform .18s var(--ease);z-index:8;
+  }
+  #frameHud.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  #frameHud .fnum{color:var(--accent);font-weight:700}
+  #frameHud .sep{color:var(--muted-2)}
+  #frameHud .fps{color:var(--muted)}
+  @media (prefers-reduced-motion:reduce){ #frameHud{transition:opacity .18s} #frameHud.show{transform:translateX(-50%)} }
 
   body.immersive .topbar{opacity:0;transform:translateY(-100%);pointer-events:none}
   body.immersive .controls{opacity:0;transform:translateY(100%);pointer-events:none}
@@ -339,6 +354,7 @@
     <h3>Shortcuts</h3>
     <div class="k"><span>Play / pause</span><kbd>Space</kbd></div>
     <div class="k"><span>Prev / next</span><kbd>&larr;</kbd> <kbd>&rarr;</kbd></div>
+    <div class="k"><span>Step frame &middot; video</span><kbd>,</kbd> <kbd>.</kbd></div>
     <div class="k"><span>Shuffle on/off</span><kbd>S</kbd></div>
     <div class="k"><span>Re-roll order</span><kbd>R</kbd></div>
     <div class="k"><span>Fit mode</span><kbd>Z</kbd></div>
@@ -481,6 +497,8 @@
         if(kicked) return; kicked = true; reveal();
       };
       el.addEventListener("timeupdate", () => { if(currentLayer === el) updateScrub(); });   // scrubber tracks whole-video time in any mode
+      el.addEventListener("playing", () => { if(currentLayer === el) sampleFps(el); });        // estimate fps for frame stepping
+      el.addEventListener("seeked", () => { if(currentLayer === el){ updateScrub(); if(frameHud.classList.contains("show")) updateFrameReadout(); } });
       if(fullClip){
         // play the entire clip, ignore hold; advance only when it ends
         el._clip = null;
@@ -534,6 +552,48 @@
   }
   function updateScrub(){ if(currentVideo && currentLayer===currentVideo) setScrubUI(currentVideo.currentTime, currentVideo.duration); }
   function showScrubber(on){ app.classList.toggle("scrub-on", !!on); if(!on){ scrubFill.style.width="0%"; scrubKnob.style.left="0%"; } }
+
+  // ---- Frame-by-frame stepping ( "," back · "." forward ) ----
+  const frameHud=document.createElement("div"); frameHud.id="frameHud";
+  frameHud.innerHTML='<span class="fnum">f0</span><span class="sep">&middot;</span><span class="tc">0:00.00</span><span class="sep">&middot;</span><span class="fps">24 fps</span>';
+  stage.appendChild(frameHud);
+  let hudTimer=null;
+  function showFrameHud(){ frameHud.classList.add("show"); clearTimeout(hudTimer); hudTimer=setTimeout(()=>frameHud.classList.remove("show"),1500); }
+  function fmtTC(t){ const m=Math.floor(t/60); return m+":"+(t-m*60).toFixed(2).padStart(5,"0"); }
+  // HTML video exposes no true frame rate; estimate it from presented frames, snapping to common rates.
+  function snapFps(f){ const C=[23.976,24,25,29.97,30,48,50,59.94,60]; let b=24,bd=Infinity; for(const c of C){ const d=Math.abs(c-f); if(d<bd){bd=d;b=c;} } return bd<=1.2?b:Math.max(1,Math.round(f)); }
+  function vfps(v){ return (v&&v._fps)||24; }   // default 24 until detected
+  function updateFrameReadout(){
+    const v=currentVideo; if(!v) return; const fps=vfps(v);
+    frameHud.querySelector(".fnum").textContent="f"+Math.round((v.currentTime||0)*fps);
+    frameHud.querySelector(".tc").textContent=fmtTC(v.currentTime||0);
+    frameHud.querySelector(".fps").textContent=(Number.isInteger(fps)?fps:fps.toFixed(2))+" fps";
+  }
+  function sampleFps(v){
+    if(!v||v._fps||v._sampling) return;
+    if(!("requestVideoFrameCallback" in HTMLVideoElement.prototype)) return;
+    v._sampling=true; let last=null; const rates=[];
+    const cb=(now,meta)=>{
+      if(v!==currentVideo){ v._sampling=false; return; }
+      if(last){ const dt=meta.mediaTime-last.mt, df=meta.presentedFrames-last.pf; if(dt>0.0008&&df>0) rates.push(df/dt); }
+      last={mt:meta.mediaTime,pf:meta.presentedFrames};
+      if(rates.length>=8){ rates.sort((a,b)=>a-b); v._fps=snapFps(rates[rates.length>>1]); v._sampling=false; if(frameHud.classList.contains("show")) updateFrameReadout(); return; }
+      if(!v.paused) v.requestVideoFrameCallback(cb); else v._sampling=false;
+    };
+    v.requestVideoFrameCallback(cb);
+  }
+  function stepFrame(dir){
+    const v=currentVideo;
+    if(!v||currentLayer!==v||!v.duration||!isFinite(v.duration)) return;   // videos only
+    if(playing) pause();            // studying frame-by-frame implies paused
+    v.pause(); v._freed=true;        // roam the whole clip, like a manual scrub
+    const fd=1/vfps(v);
+    let t=v.currentTime+dir*fd;
+    const hi=Math.max(0,v.duration-fd*0.25);
+    t=t<0?0:(t>hi?hi:t);
+    v.currentTime=t;
+    setScrubUI(t,v.duration); updateFrameReadout(); showFrameHud(); wake();
+  }
   function seekFromEvent(e){
     if(!currentVideo || !isFinite(currentVideo.duration)) return;
     const r = scrubTrack.getBoundingClientRect();
@@ -711,6 +771,8 @@
     if(k===" "){ e.preventDefault(); togglePlay(); }
     else if(e.key==="ArrowRight"){ next(); wake(); }
     else if(e.key==="ArrowLeft"){ prev(); wake(); }
+    else if(e.key===","||e.key==="<"){ e.preventDefault(); stepFrame(-1); }
+    else if(e.key==="."||e.key===">"){ e.preventDefault(); stepFrame(1); }
     else if(k==="s"){ setShuffle(!shuffleOn); }
     else if(k==="r"){ reRoll(); }
     else if(k==="z"){ cycleFit(); }
