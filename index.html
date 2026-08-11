@@ -4,31 +4,43 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>LoopDeck</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMxMDBGMEQiLz48ZyBmaWxsPSJub25lIiBzdHJva2U9IiNGMEIyM0UiIHN0cm9rZS13aWR0aD0iMyI+PHJlY3QgeD0iMTkiIHk9IjE2IiB3aWR0aD0iMzQiIGhlaWdodD0iMzIiIHJ4PSI2Ii8+PHBhdGggZD0iTTM2IDMyIEMzMSAyNS41IDIxIDI1LjUgMjEgMzIgQzIxIDM4LjUgMzEgMzguNSAzNiAzMiBDNDEgMjUuNSA1MSAyNS41IDUxIDMyIEM1MSAzOC41IDQxIDM4LjUgMzYgMzIgWiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvZz48ZyBmaWxsPSIjRjBCMjNFIj48cmVjdCB4PSIxMCIgeT0iMjEiIHdpZHRoPSI1LjUiIGhlaWdodD0iNS41IiByeD0iMS42Ii8+PHJlY3QgeD0iMTAiIHk9IjI5LjI1IiB3aWR0aD0iNS41IiBoZWlnaHQ9IjUuNSIgcng9IjEuNiIvPjxyZWN0IHg9IjEwIiB5PSIzNy41IiB3aWR0aD0iNS41IiBoZWlnaHQ9IjUuNSIgcng9IjEuNiIvPjwvZz48L3N2Zz4K">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMxNTE3MUIiLz48ZyBmaWxsPSJub25lIiBzdHJva2U9IiNDN0NERDYiIHN0cm9rZS13aWR0aD0iMyI+PHJlY3QgeD0iMTkiIHk9IjE2IiB3aWR0aD0iMzQiIGhlaWdodD0iMzIiIHJ4PSI2Ii8+PHBhdGggZD0iTTM2IDMyIEMzMSAyNS41IDIxIDI1LjUgMjEgMzIgQzIxIDM4LjUgMzEgMzguNSAzNiAzMiBDNDEgMjUuNSA1MSAyNS41IDUxIDMyIEM1MSAzOC41IDQxIDM4LjUgMzYgMzIgWiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvZz48ZyBmaWxsPSIjQzdDREQ2Ij48cmVjdCB4PSIxMCIgeT0iMjEiIHdpZHRoPSI1LjUiIGhlaWdodD0iNS41IiByeD0iMS42Ii8+PHJlY3QgeD0iMTAiIHk9IjI5LjI1IiB3aWR0aD0iNS41IiBoZWlnaHQ9IjUuNSIgcng9IjEuNiIvPjxyZWN0IHg9IjEwIiB5PSIzNy41IiB3aWR0aD0iNS41IiBoZWlnaHQ9IjUuNSIgcng9IjEuNiIvPjwvZz48L3N2Zz4K">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
+  /* ============================================================
+     Dark neumorphism: one soft charcoal surface for everything.
+     Raised chrome = dual shadow (light NW / dark SE).
+     Pressed / toggled / grooves = the same pair, inset.
+     ============================================================ */
   :root{
-    --ink:#100F0D;
-    --ink-2:#1A1813;
-    --surface:#211E18;
-    --surface-2:#2A2620;
-    --line:rgba(243,239,230,.09);
-    --line-strong:rgba(243,239,230,.16);
-    --text:#F3EFE6;
-    --muted:#928D81;
-    --muted-2:#6E6A60;
-    --accent:#F0B23E;
-    --accent-dim:rgba(240,178,62,.16);
-    --radius:14px;
-    --bar-h:78px;
+    --bg:#23262C;            /* the one surface everything is cast from */
+    --bg-deep:#1B1E23;       /* stage well behind the media */
+    --bump:linear-gradient(145deg,#272B31,#1F2227);   /* raised face */
+    --dent:linear-gradient(145deg,#1E2126,#262A30);   /* pressed face */
+    --hi:rgba(255,255,255,.055);   /* light-source shadow */
+    --hi-edge:rgba(255,255,255,.07);
+    --lo:rgba(0,0,0,.55);          /* cast shadow */
+    --out:-5px -5px 12px var(--hi), 6px 6px 14px var(--lo);
+    --out-sm:-3px -3px 7px var(--hi), 3px 3px 8px var(--lo);
+    --in:inset 4px 4px 9px var(--lo), inset -4px -4px 9px var(--hi);
+    --in-sm:inset 2px 2px 5px var(--lo), inset -2px -2px 5px var(--hi);
+    --line:rgba(255,255,255,.045);
+    --line-strong:rgba(255,255,255,.09);
+    --text:#E9E7E1;
+    --muted:#8F939B;
+    --muted-2:#63676F;
+    --accent:#C7CDD6;
+    --accent-dim:rgba(199,205,214,.14);
+    --radius:16px;
+    --bar-h:84px;
     --ease:cubic-bezier(.22,.61,.36,1);
   }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
-    margin:0;background:var(--ink);color:var(--text);
+    margin:0;background:var(--bg);color:var(--text);
     font-family:"Space Grotesk",system-ui,sans-serif;
     overflow:hidden;-webkit-font-smoothing:antialiased;
   }
@@ -37,11 +49,14 @@
 
   #app{position:fixed;inset:0;display:flex;flex-direction:column}
 
-  /* ---------- Top bar ---------- */
+  /* ---------- Top bar (floats over the stage; media runs full-bleed underneath) ---------- */
   .topbar{
+    position:absolute;top:0;left:0;right:0;
     display:flex;align-items:center;gap:18px;
-    padding:16px 20px;flex:0 0 auto;
-    border-bottom:1px solid var(--line);
+    padding:16px 22px;
+    background:rgba(35,38,44,.92);
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
     transition:opacity .35s var(--ease),transform .35s var(--ease);
     z-index:6;
   }
@@ -49,39 +64,50 @@
   .brand .gate{
     height:23px;width:30px;flex:0 0 auto;align-self:center;
     color:var(--accent);display:block;
+    filter:drop-shadow(0 2px 3px rgba(0,0,0,.4));
   }
-  .brand h1{font-size:17px;font-weight:700;letter-spacing:.02em;margin:0}
+  .brand h1{font-size:17px;font-weight:700;letter-spacing:.02em;margin:0;text-shadow:0 2px 3px rgba(0,0,0,.35)}
   .brand .tag{font-size:11px;color:var(--muted-2);letter-spacing:.08em;text-transform:uppercase}
   .spacer{flex:1}
-  .counter{font-size:14px;letter-spacing:.04em;color:var(--muted)}
+  .counter{
+    font-size:13px;letter-spacing:.04em;color:var(--muted);
+    padding:7px 14px;border-radius:999px;
+    background:var(--bg);box-shadow:var(--in-sm);
+  }
   .counter b{color:var(--text);font-weight:700}
-  .toolbtns{display:flex;gap:8px}
+  .toolbtns{display:flex;gap:10px}
 
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    height:38px;padding:0 14px;border:1px solid var(--line-strong);
-    background:var(--surface);border-radius:10px;font-size:13px;font-weight:500;
-    transition:background .18s var(--ease),border-color .18s var(--ease),transform .06s var(--ease),opacity .18s;
+    height:40px;padding:0 16px;border:1px solid var(--line);
+    background:var(--bump);border-radius:12px;font-size:13px;font-weight:500;
+    box-shadow:var(--out-sm);
+    transition:box-shadow .18s var(--ease),color .18s var(--ease),background .18s var(--ease),opacity .18s;
     white-space:nowrap;
   }
-  .btn:hover{background:var(--surface-2);border-color:var(--muted-2)}
-  .btn:active{transform:translateY(1px)}
-  .btn.icon{width:38px;padding:0}
+  .btn:hover{color:var(--accent)}
+  .btn:active{background:var(--dent);box-shadow:var(--in-sm)}
+  .btn.icon{width:40px;padding:0}
   .btn svg{width:17px;height:17px;display:block}
-  .btn.ghost{background:transparent;border-color:transparent}
-  .btn.ghost:hover{background:var(--surface)}
-  .btn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+  .btn.ghost{background:transparent;border-color:transparent;box-shadow:none}
+  .btn.ghost:hover{background:var(--bump);box-shadow:var(--out-sm);border-color:var(--line)}
+  .btn.ghost:active{background:var(--dent);box-shadow:var(--in-sm)}
+  .btn[aria-pressed="true"]{
+    background:var(--dent);box-shadow:var(--in-sm);
+    color:var(--accent);border-color:transparent;
+  }
   .btn:disabled{opacity:.35;cursor:default;pointer-events:none}
 
-  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
 
-  /* ---------- Stage ---------- */
+  /* ---------- Stage (fills the window; chrome floats above it) ---------- */
   .stage{
-    flex:1;position:relative;overflow:hidden;
+    position:absolute;inset:0;overflow:hidden;
     display:flex;align-items:center;justify-content:center;
     background:
-      radial-gradient(120% 120% at 50% 0%,rgba(240,178,62,.04),transparent 60%),
-      var(--ink);
+      radial-gradient(120% 120% at 50% 0%,rgba(199,205,214,.03),transparent 60%),
+      var(--bg-deep);
+    box-shadow:inset 0 8px 18px rgba(0,0,0,.45), inset 0 -6px 14px rgba(0,0,0,.35), inset 0 1px 0 rgba(0,0,0,.5);
   }
   .stage .media-wrap{position:absolute;inset:0}
   .layer{
@@ -93,102 +119,164 @@
   .fit-contain .layer{object-fit:contain}
   .fit-cover .layer{object-fit:cover}
   .fit-actual .layer{object-fit:none}
+  .gifstep{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:4}
+  .fit-contain .gifstep{object-fit:contain}
+  .fit-cover .gifstep{object-fit:cover}
+  .fit-actual .gifstep{object-fit:none}
 
   .filename{
-    position:absolute;left:18px;bottom:14px;z-index:4;
+    position:absolute;left:18px;bottom:calc(var(--controls-h,0px) + 14px);z-index:4;
     font-size:11px;color:var(--muted);letter-spacing:.04em;
-    background:rgba(16,15,13,.55);padding:4px 9px;border-radius:6px;
+    background:rgba(20,22,26,.6);padding:5px 11px;border-radius:999px;
+    box-shadow:0 3px 8px rgba(0,0,0,.35);
     backdrop-filter:blur(8px);max-width:50%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-    transition:opacity .35s var(--ease);
+    transition:opacity .35s var(--ease),color .18s var(--ease),background .18s var(--ease);
+    cursor:pointer;user-select:none;
   }
+  .filename:hover{color:var(--text);background:rgba(24,27,32,.78)}
+  .filename.copied{color:var(--accent)}
 
   /* ---------- Video scrubber (full-clip mode only) ---------- */
   .scrubber{
-    position:absolute;left:0;right:0;bottom:0;z-index:5;
+    position:absolute;left:0;right:0;bottom:var(--controls-h,0px);z-index:5;
     display:flex;align-items:center;gap:12px;
     padding:24px 20px 15px;
-    background:linear-gradient(to top,rgba(16,15,13,.72),transparent);
+    background:linear-gradient(to top,rgba(18,20,24,.75),transparent);
     opacity:0;pointer-events:none;transition:opacity .3s var(--ease);
   }
   .scrub-on .scrubber{opacity:1;pointer-events:auto}
   body.immersive .scrubber{opacity:0;pointer-events:none}
   .scrubber .t{font-size:11px;color:var(--text);min-width:40px;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.6)}
   .scrubber .track{position:relative;flex:1;height:18px;display:flex;align-items:center;cursor:pointer;touch-action:none}
-  .scrubber .track::before{content:"";position:absolute;left:0;right:0;height:4px;border-radius:4px;background:rgba(243,239,230,.3)}
-  .scrubber .fill{position:absolute;left:0;height:4px;border-radius:4px;background:var(--accent);width:0%}
-  .scrubber .knob{position:absolute;left:0;width:13px;height:13px;border-radius:50%;background:var(--text);border:3px solid var(--accent);transform:translateX(-50%);box-shadow:0 1px 4px rgba(0,0,0,.55);transition:transform .1s var(--ease)}
+  .scrubber .track::before{
+    content:"";position:absolute;left:0;right:0;height:6px;border-radius:6px;
+    background:rgba(0,0,0,.45);
+    box-shadow:inset 1px 2px 4px rgba(0,0,0,.6), inset -1px -1px 2px rgba(255,255,255,.06);
+  }
+  .scrubber .fill{position:absolute;left:0;height:6px;border-radius:6px;background:var(--accent);width:0%;box-shadow:0 0 8px rgba(199,205,214,.3)}
+  .scrubber .knob{
+    position:absolute;left:0;width:15px;height:15px;border-radius:50%;
+    background:linear-gradient(145deg,#2B2F36,#1E2126);border:2px solid var(--accent);
+    transform:translateX(-50%);
+    box-shadow:-2px -2px 4px rgba(255,255,255,.06), 2px 3px 6px rgba(0,0,0,.6);
+    transition:transform .1s var(--ease);
+  }
   .scrubber .track:hover .knob,.scrubber .track:active .knob{transform:translateX(-50%) scale(1.18)}
-  .scrub-on .filename{bottom:54px}
+  .scrub-on .filename{bottom:calc(var(--controls-h,0px) + 54px)}
 
   /* ---------- Empty state ---------- */
   .empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;padding:24px}
   .dropgate{
-    width:min(420px,72vw);aspect-ratio:4/3;border:2px dashed var(--line-strong);
-    border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
-    transition:border-color .2s var(--ease),background .2s var(--ease);position:relative;
+    width:min(430px,72vw);aspect-ratio:4/3;
+    border:none;border-radius:26px;
+    background:linear-gradient(145deg,#25292F,#1E2126);
+    box-shadow:var(--out), inset 0 0 0 1px var(--line);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+    transition:box-shadow .25s var(--ease);position:relative;
   }
-  .dropgate::before,.dropgate::after{content:"";position:absolute;width:8px;height:34px;border-radius:3px;background:var(--accent-dim)}
-  .dropgate::before{left:-4px;background-image:repeating-linear-gradient(var(--accent) 0 7px,transparent 7px 14px)}
-  .dropgate::after{right:-4px;background-image:repeating-linear-gradient(var(--accent) 0 7px,transparent 7px 14px)}
-  .empty h2{font-size:23px;font-weight:600;margin:0;letter-spacing:-.01em}
+  .dropgate::before,.dropgate::after{content:"";position:absolute;width:8px;height:34px;border-radius:3px}
+  .dropgate::before{left:-4px;background-image:repeating-linear-gradient(var(--accent) 0 7px,transparent 7px 14px);filter:drop-shadow(2px 3px 3px rgba(0,0,0,.5))}
+  .dropgate::after{right:-4px;background-image:repeating-linear-gradient(var(--accent) 0 7px,transparent 7px 14px);filter:drop-shadow(2px 3px 3px rgba(0,0,0,.5))}
+  .empty h2{font-size:23px;font-weight:600;margin:0;letter-spacing:-.01em;text-shadow:0 2px 4px rgba(0,0,0,.4)}
   .empty p{margin:0;color:var(--muted);font-size:14px;max-width:360px;line-height:1.5}
   .empty .formats{font-size:11px;color:var(--muted-2);letter-spacing:.06em;text-transform:uppercase}
   .cta{
-    height:46px;padding:0 24px;border-radius:11px;border:none;
-    background:var(--accent);color:#1a1303;font-weight:700;font-size:14px;letter-spacing:.01em;
-    transition:filter .18s var(--ease),transform .06s var(--ease);
+    height:48px;padding:0 26px;border-radius:999px;border:none;
+    background:linear-gradient(145deg,#E6EAF0,#AEB5C0);color:#1A1D22;font-weight:700;font-size:14px;letter-spacing:.01em;
+    box-shadow:-3px -3px 8px rgba(255,255,255,.06), 4px 5px 12px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.5);
+    transition:box-shadow .18s var(--ease),filter .18s var(--ease);
   }
-  .cta:hover{filter:brightness(1.07)}
-  .cta:active{transform:translateY(1px)}
+  .cta:hover{filter:brightness(1.06)}
+  .cta:active{
+    background:linear-gradient(145deg,#A8AFBA,#D6DBE2);
+    box-shadow:inset 2px 3px 6px rgba(40,45,55,.5), inset -2px -2px 5px rgba(255,255,255,.35);
+  }
 
-  /* ---------- Bottom controls ---------- */
-  .controls{flex:0 0 auto;border-top:1px solid var(--line);background:var(--ink-2);transition:opacity .35s var(--ease),transform .35s var(--ease);z-index:6}
-  .controls .row{display:flex;align-items:center;gap:14px;padding:12px 20px;height:var(--bar-h)}
-  .transport{display:flex;align-items:center;gap:10px}
+  /* ---------- Bottom controls (float over the stage) ---------- */
+  .controls{
+    position:absolute;left:0;right:0;bottom:0;
+    background:rgba(35,38,44,.92);
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    box-shadow:0 -10px 30px rgba(0,0,0,.35);
+    transition:opacity .35s var(--ease),transform .35s var(--ease);z-index:6;
+  }
+  .controls .row{display:flex;align-items:center;gap:16px;padding:14px 22px;height:var(--bar-h)}
+  .transport{display:flex;align-items:center;gap:12px}
 
-  .playwrap{position:relative;width:54px;height:54px;flex:0 0 auto}
+  .playwrap{
+    position:relative;width:58px;height:58px;flex:0 0 auto;
+    border-radius:50%;background:var(--bg);
+    box-shadow:var(--out);
+  }
   .playwrap svg.ring{position:absolute;inset:0;transform:rotate(-90deg)}
   .ring circle{fill:none;stroke-width:3}
-  .ring .track{stroke:var(--line-strong)}
-  .ring .prog{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .08s linear}
-  .playbtn{position:absolute;inset:5px;border-radius:50%;border:none;background:var(--surface-2);display:flex;align-items:center;justify-content:center;transition:background .18s var(--ease)}
-  .playbtn:hover{background:var(--surface)}
+  .ring .track{stroke:rgba(0,0,0,.4)}
+  .ring .prog{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .08s linear;filter:drop-shadow(0 0 3px rgba(199,205,214,.4))}
+  .playbtn{
+    position:absolute;inset:6px;border-radius:50%;border:1px solid var(--line);
+    background:var(--bump);display:flex;align-items:center;justify-content:center;
+    box-shadow:-2px -2px 5px var(--hi), 3px 3px 7px var(--lo);
+    transition:box-shadow .18s var(--ease),background .18s var(--ease),color .18s var(--ease);
+  }
+  .playbtn:hover{color:var(--accent)}
+  .playbtn:active{background:var(--dent);box-shadow:var(--in-sm)}
   .playbtn svg{width:20px;height:20px}
 
-  .speed{display:flex;align-items:center;gap:11px;flex:1;min-width:120px;max-width:340px}
-  .speed label{font-size:11px;color:var(--muted-2);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
-  .speed-val{font-size:14px;color:var(--accent);min-width:54px;text-align:right}
-  input[type=range]{
-    -webkit-appearance:none;appearance:none;height:4px;border-radius:4px;flex:1;
-    background:linear-gradient(var(--accent),var(--accent)) no-repeat,var(--line-strong);
-    background-size:var(--fill,40%) 100%;cursor:pointer;
+  .speed{display:flex;align-items:center;gap:10px;flex:1;min-width:150px;max-width:430px}
+  .speed>label{font-size:11px;color:var(--muted-2);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+  .btn.mini{width:30px;height:30px;min-width:30px;border-radius:9px;font-size:16px;font-weight:600;line-height:1;padding:0;flex:0 0 auto}
+  .speed-num{
+    display:flex;align-items:baseline;gap:1px;flex:0 0 auto;
+    background:var(--bg);box-shadow:var(--in-sm);border-radius:9px;
+    padding:6px 10px;font-family:"Space Mono",ui-monospace,monospace;font-size:13px;color:var(--accent);
   }
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--text);border:3px solid var(--accent);box-shadow:0 0 0 4px transparent;transition:box-shadow .15s}
-  input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 5px var(--accent-dim)}
-  input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--text);border:3px solid var(--accent)}
+  .speed-num input{
+    width:46px;background:transparent;border:none;color:var(--accent);
+    font:inherit;text-align:right;padding:0;outline:none;
+  }
+  .speed-num .unit{color:var(--muted)}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;height:8px;border-radius:8px;flex:1;
+    background:linear-gradient(var(--accent),var(--accent)) no-repeat,rgba(0,0,0,.4);
+    background-size:var(--fill,40%) 100%;cursor:pointer;
+    box-shadow:inset 1px 2px 4px rgba(0,0,0,.55), inset -1px -1px 2px rgba(255,255,255,.05);
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:19px;height:19px;border-radius:50%;
+    background:linear-gradient(145deg,#2B2F36,#1E2126);border:2px solid var(--accent);
+    box-shadow:-2px -2px 4px rgba(255,255,255,.06), 2px 3px 6px rgba(0,0,0,.6);
+    transition:box-shadow .15s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover{box-shadow:-2px -2px 4px rgba(255,255,255,.06), 2px 3px 6px rgba(0,0,0,.6), 0 0 0 5px var(--accent-dim)}
+  input[type=range]::-moz-range-thumb{
+    width:19px;height:19px;border-radius:50%;
+    background:linear-gradient(145deg,#2B2F36,#1E2126);border:2px solid var(--accent);
+    box-shadow:-2px -2px 4px rgba(255,255,255,.06), 2px 3px 6px rgba(0,0,0,.6);
+  }
 
-  .right-tools{display:flex;align-items:center;gap:8px}
+  .right-tools{display:flex;align-items:center;gap:10px}
 
   /* ---------- Virtualized filmstrip ---------- */
-  .strip{position:relative;overflow-x:auto;overflow-y:hidden;padding:6px 0 14px;scrollbar-width:thin}
+  .strip{position:relative;overflow-x:auto;overflow-y:hidden;padding:8px 0 16px;scrollbar-width:thin}
   .strip::-webkit-scrollbar{height:7px}
-  .strip::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:8px}
+  .strip::-webkit-scrollbar-thumb{background:rgba(0,0,0,.45);border-radius:8px;box-shadow:inset -1px -1px 2px rgba(255,255,255,.05)}
   .strip-track{position:relative;height:54px}
   .thumb{
-    position:absolute;top:0;width:86px;height:54px;border-radius:8px;overflow:hidden;
-    border:2px solid transparent;background:var(--surface);cursor:pointer;
-    transition:border-color .15s var(--ease),transform .12s var(--ease),opacity .15s;opacity:.62;
+    position:absolute;top:0;width:86px;height:54px;border-radius:10px;overflow:hidden;
+    border:2px solid transparent;background:var(--bg-deep);cursor:pointer;
+    box-shadow:-2px -2px 5px var(--hi), 3px 3px 7px var(--lo);
+    transition:border-color .15s var(--ease),transform .12s var(--ease),opacity .15s,box-shadow .15s var(--ease);opacity:.6;
   }
-  .thumb:hover{opacity:1;transform:translateY(-2px)}
-  .thumb.active{border-color:var(--accent);opacity:1}
+  .thumb:hover{opacity:1;transform:translateY(-2px);box-shadow:-3px -3px 7px var(--hi), 4px 5px 10px var(--lo)}
+  .thumb.active{border-color:var(--accent);opacity:1;box-shadow:-2px -2px 5px var(--hi), 3px 3px 7px var(--lo), 0 0 10px rgba(199,205,214,.25)}
   .thumb img,.thumb video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
-  .thumb .idx{position:absolute;left:4px;top:3px;font-size:9px;background:rgba(16,15,13,.62);padding:1px 4px;border-radius:3px;color:var(--muted);letter-spacing:.04em;font-family:"Space Mono",monospace}
-  .thumb .vidtag{position:absolute;left:4px;bottom:3px;font-size:9px;background:rgba(0,0,0,.6);padding:1px 4px;border-radius:3px;color:#fff;letter-spacing:.05em}
+  .thumb .idx{position:absolute;left:4px;top:3px;font-size:9px;background:rgba(18,20,24,.68);padding:1px 4px;border-radius:4px;color:var(--muted);letter-spacing:.04em;font-family:"Space Mono",monospace}
+  .thumb .vidtag{position:absolute;left:4px;bottom:3px;font-size:9px;background:rgba(0,0,0,.6);padding:1px 4px;border-radius:4px;color:#fff;letter-spacing:.05em}
   /* delete control: tiny ×, upper-right. Appears after a brief hover dwell; always reachable on touch / via keyboard */
   .thumb .rm{
     position:absolute;right:3px;top:3px;width:18px;height:18px;padding:0;
-    border:1px solid rgba(243,239,230,.16);border-radius:6px;
-    background:rgba(16,15,13,.8);color:var(--text);
+    border:1px solid rgba(255,255,255,.12);border-radius:7px;
+    background:rgba(18,20,24,.82);color:var(--text);
     font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;
     cursor:pointer;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
     opacity:0;pointer-events:none;transform:scale(.82);
@@ -209,24 +297,40 @@
   @media (prefers-reduced-motion:reduce){ .thumb .rm{transform:none!important} }
 
   /* drag overlay */
-  .dragveil{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(16,15,13,.82);backdrop-filter:blur(3px);font-size:22px;font-weight:600;pointer-events:none}
-  .dragveil .box{border:2px dashed var(--accent);border-radius:18px;padding:48px 64px;color:var(--accent)}
+  .dragveil{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(18,20,24,.84);backdrop-filter:blur(3px);font-size:22px;font-weight:600;pointer-events:none}
+  .dragveil .box{
+    border:2px dashed var(--accent);border-radius:24px;padding:48px 64px;color:var(--accent);
+    background:linear-gradient(145deg,#25292F,#1E2126);
+    box-shadow:var(--out);
+  }
   body.dragging .dragveil{display:flex}
 
   /* help sheet */
-  .help{position:fixed;right:18px;bottom:calc(var(--bar-h) + 96px);z-index:30;background:var(--surface);border:1px solid var(--line-strong);border-radius:12px;padding:14px 16px;font-size:12.5px;line-height:1.9;box-shadow:0 18px 50px rgba(0,0,0,.5);display:none;min-width:220px}
+  .help{
+    position:fixed;right:18px;bottom:calc(var(--controls-h,84px) + 18px);z-index:30;
+    background:linear-gradient(145deg,#272B31,#1F2227);
+    border:1px solid var(--line);border-radius:18px;padding:16px 18px;
+    font-size:12.5px;line-height:1.9;
+    box-shadow:var(--out), 0 22px 60px rgba(0,0,0,.5);
+    display:none;min-width:224px;
+  }
   .help.show{display:block}
   .help h3{margin:0 0 8px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-  .help kbd{font-family:"Space Mono",monospace;font-size:11px;background:var(--ink);border:1px solid var(--line-strong);border-radius:5px;padding:1px 6px;color:var(--accent);min-width:20px;display:inline-block;text-align:center}
+  .help kbd{
+    font-family:"Space Mono",monospace;font-size:11px;
+    background:var(--bg);border:none;border-radius:6px;padding:1px 6px;color:var(--accent);
+    box-shadow:var(--in-sm);
+    min-width:20px;display:inline-block;text-align:center;
+  }
   .help .k{display:flex;justify-content:space-between;gap:24px;color:var(--muted)}
   /* frame-step heads-up readout */
   #frameHud{
-    position:absolute;left:50%;bottom:18px;transform:translateX(-50%) translateY(6px);
+    position:absolute;left:50%;bottom:calc(var(--controls-h,0px) + 18px);transform:translateX(-50%) translateY(6px);
     display:flex;gap:9px;align-items:center;
-    background:rgba(16,15,13,.82);border:1px solid var(--line-strong);border-radius:9px;
-    padding:6px 12px;font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.03em;color:var(--text);
+    background:rgba(18,20,24,.85);border:1px solid var(--line-strong);border-radius:999px;
+    padding:7px 14px;font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.03em;color:var(--text);
     opacity:0;pointer-events:none;-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
-    box-shadow:0 10px 30px rgba(0,0,0,.45);
+    box-shadow:0 10px 30px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05);
     transition:opacity .18s var(--ease),transform .18s var(--ease);z-index:8;
   }
   #frameHud.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -237,11 +341,11 @@
 
   body.immersive .topbar{opacity:0;transform:translateY(-100%);pointer-events:none}
   body.immersive .controls{opacity:0;transform:translateY(100%);pointer-events:none}
-  body.immersive .filename{opacity:0}
+  body.immersive .filename{opacity:0;pointer-events:none}
   .empty-hidden .stage .empty{display:none}
 
   @media (prefers-reduced-motion:reduce){*{transition-duration:.001ms !important}}
-  @media (max-width:680px){.brand .tag{display:none}.speed label{display:none}.counter{font-size:13px}}
+  @media (max-width:680px){.brand .tag{display:none}.speed label{display:none}.counter{font-size:12px}}
 </style>
 </head>
 <body>
@@ -264,6 +368,9 @@
     <div class="toolbtns">
       <button class="btn" id="addBtn" title="Add images / clips">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Add
+      </button>
+      <button class="btn icon" id="addDirBtn" title="Add a folder — keeps folder paths, so ⌥-clicking the filename copies the path">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M12 10v6M9 13h6"/></svg>
       </button>
       <button class="btn" id="shuffleToggle" aria-pressed="true" title="Shuffle on/off (S)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M21 3l-7 7M8 21H3v-5M3 21l7-7M16 21h5v-5M21 21L3 3"/></svg>Shuffle
@@ -295,7 +402,7 @@
         <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="M21 15l-5-5L5 21"/></svg>
         <div>
           <h2>Drop your references</h2>
-          <p>Images, GIFs and clips. They play back shuffled by default — flip shuffle off any time for upload order.</p>
+          <p>Images, GIFs and clips — drop single files or a whole folder. They play back shuffled by default; flip shuffle off any time for upload order.</p>
         </div>
         <button class="cta" id="chooseBtn">Choose files</button>
         <span class="formats">jpg · png · webp · gif · mp4 · webm</span>
@@ -325,8 +432,13 @@
 
       <div class="speed">
         <label>Hold</label>
+        <button class="btn icon mini" id="holdMinus" title="Shorter hold (&minus;0.5s)">&minus;</button>
         <input type="range" id="speed" min="500" max="60000" step="100" value="3000">
-        <span class="speed-val mono" id="speedVal">3.0s</span>
+        <button class="btn icon mini" id="holdPlus" title="Longer hold (+0.5s)">+</button>
+        <div class="speed-num" title="Hold seconds &mdash; click to type an exact value">
+          <input id="speedVal" type="text" inputmode="decimal" value="3" aria-label="Hold duration in seconds">
+          <span class="unit">s</span>
+        </div>
       </div>
 
       <div class="right-tools">
@@ -348,13 +460,13 @@
     <div class="strip" id="strip"><div class="strip-track" id="stripTrack"></div></div>
   </section>
 
-  <div class="dragveil"><div class="box">Drop to add to the deck</div></div>
+  <div class="dragveil"><div class="box">Drop files or folders to add to the deck</div></div>
 
   <div class="help" id="help">
     <h3>Shortcuts</h3>
     <div class="k"><span>Play / pause</span><kbd>Space</kbd></div>
     <div class="k"><span>Prev / next</span><kbd>&larr;</kbd> <kbd>&rarr;</kbd></div>
-    <div class="k"><span>Step frame &middot; video</span><kbd>,</kbd> <kbd>.</kbd></div>
+    <div class="k"><span>Step frame &middot; video, gif</span><kbd>,</kbd> <kbd>.</kbd></div>
     <div class="k"><span>Shuffle on/off</span><kbd>S</kbd></div>
     <div class="k"><span>Re-roll order</span><kbd>R</kbd></div>
     <div class="k"><span>Fit mode</span><kbd>Z</kbd></div>
@@ -365,6 +477,7 @@
   </div>
 
   <input type="file" id="fileInput" accept="image/*,video/*" multiple hidden>
+  <input type="file" id="dirInput" webkitdirectory hidden>
 </div>
 
 <script>
@@ -406,7 +519,7 @@
 
   // ---- Helpers ----
   const isVideo = f => f.type.startsWith("video/");
-  const fmtSpeed = ms => (ms/1000).toFixed(1) + "s";
+  const fmtSpeed = ms => (ms/1000).toFixed(2).replace(/\.?0+$/,"");   // "3", "2.5", "2.75"
   function shuffleArr(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
   function liveIndices(){ const out=[]; for(let i=0;i<items.length;i++) if(items[i]) out.push(i); return out; }
 
@@ -436,12 +549,15 @@
   }
 
   // ---- Add files ----
-  function addFiles(fileList){
-    const arr = [...fileList].filter(f => f.type.startsWith("image/") || f.type.startsWith("video/"));
+  // entries carry {file, rel}: rel is the path inside a dropped/picked folder ("" when added individually —
+  // the browser sandbox never exposes absolute paths, folder-relative is the most we can know)
+  function addFiles(fileList){ addMedia([...fileList].map(f => ({ file:f, rel:f.webkitRelativePath||"" }))); }
+  function addMedia(list){
+    const arr = list.filter(x => x.file.type.startsWith("image/") || x.file.type.startsWith("video/"));
     if(!arr.length) return;
     const firstLoad = order.length === 0;
     const newIdx = [];
-    arr.forEach(f => { const idx = items.length; items.push({ id: crypto.randomUUID(), type: isVideo(f)?"video":"image", url: URL.createObjectURL(f), name: f.name }); newIdx.push(idx); });
+    arr.forEach(x => { const f=x.file; const idx = items.length; items.push({ id: crypto.randomUUID(), type: isVideo(f)?"video":"image", mime: f.type, url: URL.createObjectURL(f), name: f.name, path: x.rel||"" }); newIdx.push(idx); });
     if(shuffleOn) shuffleArr(newIdx);          // randomize the incoming batch
     order = order.concat(newIdx);              // append without disrupting what's on screen
     rebuildStrip();
@@ -453,6 +569,31 @@
     }
   }
 
+  // ---- Folder drops: walk dropped directories recursively so a whole reference folder can be added at once ----
+  function walkEntry(entry, out){
+    return new Promise(res => {
+      if(entry.isFile){
+        entry.file(f => { out.push({ file:f, rel:entry.fullPath.replace(/^\//,"") }); res(); }, () => res());
+      } else if(entry.isDirectory){
+        const reader = entry.createReader();
+        const readBatch = () => reader.readEntries(async es => {   // readEntries returns results in batches; keep calling until empty
+          if(!es.length){ res(); return; }
+          for(const e2 of es) await walkEntry(e2, out);
+          readBatch();
+        }, () => res());
+        readBatch();
+      } else res();
+    });
+  }
+  async function handleDrop(dt){
+    // getAsEntry must be called synchronously while the drop event is live — collect first, then walk
+    const entries = [...dt.items].map(i => i.webkitGetAsEntry && i.webkitGetAsEntry()).filter(Boolean);
+    const out = [];
+    if(entries.length){ for(const en of entries) await walkEntry(en, out); }
+    else out.push(...[...dt.files].map(f => ({ file:f, rel:"" })));
+    addMedia(out);
+  }
+
   // ---- Render current slide (crossfade) ----
   let currentLayer = null;   // currently visible media element
   let renderToken = 0;       // invalidates transitions that get superseded
@@ -460,6 +601,7 @@
 
   function render(){
     if(!order.length) return;
+    clearGifOverlays();
     const token = ++renderToken;
     const item = items[order[pos]];
     let el;
@@ -469,6 +611,7 @@
       const prev = currentLayer;
       currentLayer = el;
       currentVideo = (item.type === "video") ? el : null;
+      if(item.type === "image" && isGifItem(item)){ if(gifSupported()) startGif(item, el); else if(!playing) freezeGif(); }
       requestAnimationFrame(() => {
         el.classList.add("in");
         if(prev){
@@ -517,7 +660,7 @@
           el._clip = w;
           const a = fmtTime(w.start), b = fmtTime(w.start + w.len);
           filename.textContent = (w.len < dur - 0.1)
-            ? item.name + "  \u00b7  " + (a === b ? a : a + "\u2013" + b)
+            ? item.name + "  ·  " + (a === b ? a : a + "–" + b)
             : item.name;
           if(w.start > 0.05){
             el.currentTime = w.start;
@@ -529,7 +672,10 @@
       mediaWrap.appendChild(el);
     }
 
+    clearCopyFlash();
     filename.textContent = item.name;
+    filename.dataset.name = item.name;   // pure file name for click-to-copy (display text may gain a clip-window suffix)
+    filename.dataset.path = item.path || "";   // folder-relative path for option-click, when known
     showScrubber(item.type === "video");
     updateCounter();
     ensureThumbVisible(pos);
@@ -584,16 +730,145 @@
   }
   function stepFrame(dir){
     const v=currentVideo;
-    if(!v||currentLayer!==v||!v.duration||!isFinite(v.duration)) return;   // videos only
-    if(playing) pause();            // studying frame-by-frame implies paused
-    v.pause(); v._freed=true;        // roam the whole clip, like a manual scrub
-    const fd=1/vfps(v);
-    let t=v.currentTime+dir*fd;
-    const hi=Math.max(0,v.duration-fd*0.25);
-    t=t<0?0:(t>hi?hi:t);
-    v.currentTime=t;
-    setScrubUI(t,v.duration); updateFrameReadout(); showFrameHud(); wake();
+    if(v && currentLayer===v && v.duration && isFinite(v.duration)){   // video clip
+      if(playing) pause();            // studying frame-by-frame implies paused
+      v.pause(); v._freed=true;        // roam the whole clip, like a manual scrub
+      const fd=1/vfps(v);
+      let t=v.currentTime+dir*fd;
+      const hi=Math.max(0,v.duration-fd*0.25);
+      t=t<0?0:(t>hi?hi:t);
+      v.currentTime=t;
+      setScrubUI(t,v.duration); updateFrameReadout(); showFrameHud(); wake();
+      return;
+    }
+    const item = order.length ? items[order[pos]] : null;   // animated GIF
+    if(isGifItem(item) && gifCtl){ if(playing) pause(); gifStepBy(dir); }
   }
+
+  // ---- GIF playback controller (we drive animation via ImageDecoder so pause + step are frame-exact) ----
+  let gifCtl=null;
+  const gifSupported = () => "ImageDecoder" in window;
+  const isGifItem = it => !!it && it.type==="image" && (it.mime==="image/gif" || /\.gif$/i.test(it.name||""));
+  const gifFrameDurMs = image => image.duration ? Math.max(20, image.duration/1000) : 80;
+  async function ensureGifFrames(item){
+    if(item._gif) return item._gif;
+    const buf = await (await fetch(item.url)).arrayBuffer();
+    const dec = new ImageDecoder({ data: buf, type: item.mime || "image/gif" });
+    await dec.tracks.ready;
+    const track = dec.tracks.selectedTrack;
+    let count = track && track.frameCount;
+    if(!count){ try{ await dec.completed; }catch(e){} count = (track && track.frameCount) || 1; }
+    item._gif = { dec, count, cache:new Array(count), durs:new Array(count), docache: count<=600 };
+    return item._gif;
+  }
+  // Show composited frame `target`: forward steps stack deltas, backward/jump rebuilds from 0, results cached.
+  async function gifComposite(g, target){
+    target = Math.min(g.count-1, Math.max(0, target|0));
+    const cached = g.cache[target];
+    if(cached){
+      if(g.canvas.width!==cached.width){ g.canvas.width=cached.width; g.canvas.height=cached.height; }
+      g.ctx.clearRect(0,0,g.canvas.width,g.canvas.height);
+      g.ctx.drawImage(cached,0,0);
+      g.idx=target; g.drawn=target; g.curDur=g.durs[target]||80;
+      return g.curDur;
+    }
+    let from;
+    if(g.drawn>=0 && target>g.drawn) from=g.drawn+1;                                            // continue forward, stacking deltas
+    else { from=0; if(g.canvas.width) g.ctx.clearRect(0,0,g.canvas.width,g.canvas.height); }     // rebuild from the start
+    let dur=g.curDur||80;
+    for(let i=from;i<=target;i++){
+      let res; try{ res=await g.dec.decode({ frameIndex:i, completeFramesOnly:true }); }catch(e){ break; }
+      const image=res.image;
+      if(g!==gifCtl){ image.close(); return dur; }
+      if(i===0 && (g.canvas.width!==image.displayWidth || g.canvas.height!==image.displayHeight)){
+        g.canvas.width=image.displayWidth; g.canvas.height=image.displayHeight;
+      }
+      g.ctx.drawImage(image,0,0);
+      dur=gifFrameDurMs(image); g.durs[i]=dur;
+      image.close();
+      if(g.docache && !g.cache[i]){ try{ g.cache[i]=await createImageBitmap(g.canvas); }catch(e){} }
+    }
+    g.drawn=target; g.idx=target; g.curDur=dur;
+    return dur;
+  }
+  function gifRender(g, target){     // serialize composites so the play loop and stepping never race on the canvas
+    const run = () => (g===gifCtl ? gifComposite(g, target) : Promise.resolve(g.curDur||80));
+    g.lock = (g.lock || Promise.resolve()).then(run, run);
+    return g.lock;
+  }
+  function gifWake(g){ if(g.timer){ clearTimeout(g.timer); g.timer=null; } const w=g.wake; g.wake=null; if(w) w(); }   // release a pending frame-sleep
+  async function gifPlayLoop(){
+    const g=gifCtl; if(!g||g.looping) return; g.looping=true;
+    try{
+      while(g===gifCtl && g.playing){
+        const dur = await gifRender(g, g.idx);
+        if(g!==gifCtl || !g.playing) break;
+        await new Promise(r=>{ g.wake=r; g.timer=setTimeout(r, dur); }); g.wake=null;
+        if(g!==gifCtl || !g.playing) break;
+        g.idx = (g.idx+1>=g.count) ? 0 : g.idx+1;
+      }
+    } finally { if(g===gifCtl) g.looping=false; }
+  }
+  async function startGif(item, img){
+    if(!gifSupported()) return;
+    stopGif();
+    try{
+      const meta = await ensureGifFrames(item);
+      const canvas=document.createElement("canvas"); canvas.className="gifstep";
+      mediaWrap.appendChild(canvas);
+      const g = { item, dec:meta.dec, count:meta.count, cache:meta.cache, durs:meta.durs, docache:meta.docache,
+                  canvas, ctx:canvas.getContext("2d"), img, idx:Math.min(item._gifIdx||0, meta.count-1),
+                  drawn:-1, curDur:80, playing:false, looping:false, timer:null, lock:null };
+      gifCtl = g;
+      if(img) img.style.visibility="hidden";
+      await gifRender(g, g.idx);
+      if(g===gifCtl && playing){ g.playing=true; gifPlayLoop(); }
+    } catch(e){ stopGif(); }
+  }
+  function stopGif(){
+    const g=gifCtl; if(!g) return;
+    gifCtl=null; g.playing=false; gifWake(g);
+    if(g.item) g.item._gifIdx=g.idx;
+    if(g.img) g.img.style.visibility="";
+    if(g.canvas && g.canvas.parentNode) g.canvas.parentNode.removeChild(g.canvas);
+  }
+  function gifPlay(){ const g=gifCtl; if(!g||g.playing) return; g.playing=true; if(!g.looping) gifPlayLoop(); }
+  function gifPause(){ const g=gifCtl; if(!g) return; g.playing=false; gifWake(g); updateGifReadout(g); showFrameHud(); }
+  async function gifStepBy(dir){
+    const g=gifCtl; if(!g) return;
+    g.playing=false; gifWake(g);
+    const t = Math.min(g.count-1, Math.max(0, g.idx + dir));
+    await gifRender(g, t);
+    if(g===gifCtl){ g.item._gifIdx=g.idx; updateGifReadout(g); showFrameHud(); wake(); }
+  }
+  function updateGifReadout(g){
+    frameHud.querySelector(".fnum").textContent = "f" + (g.idx+1);
+    frameHud.querySelector(".tc").textContent = g.count + " frames";
+    frameHud.querySelector(".fps").textContent = "gif";
+  }
+
+  // ---- Fallback pause for browsers without ImageDecoder: snapshot the live <img> (current frame on non-Chromium) ----
+  let gifFreeze=null;
+  function freezeGif(){
+    if(gifCtl || gifFreeze || !order.length) return;
+    const item = items[order[pos]];
+    if(!isGifItem(item)) return;
+    const img = (currentLayer && currentLayer.tagName==="IMG") ? currentLayer : null;
+    if(!img || !img.naturalWidth) return;
+    const canvas=document.createElement("canvas"); canvas.className="gifstep";
+    canvas.width=img.naturalWidth; canvas.height=img.naturalHeight;
+    try{ canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height); }catch(e){ return; }
+    mediaWrap.appendChild(canvas);
+    img.style.visibility="hidden";
+    gifFreeze={ canvas, img };
+  }
+  function clearGifFreeze(){
+    if(!gifFreeze) return;
+    if(gifFreeze.img) gifFreeze.img.style.visibility="";
+    if(gifFreeze.canvas && gifFreeze.canvas.parentNode) gifFreeze.canvas.parentNode.removeChild(gifFreeze.canvas);
+    gifFreeze=null;
+  }
+  function clearGifOverlays(){ stopGif(); clearGifFreeze(); }
   function seekFromEvent(e){
     if(!currentVideo || !isFinite(currentVideo.duration)) return;
     const r = scrubTrack.getBoundingClientRect();
@@ -631,13 +906,16 @@
   }
   function play(){
     if(!order.length) return;
+    clearGifFreeze();
     playing=true; $("#playIcon").innerHTML='<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';
+    gifPlay();
     if(currentVideo) currentVideo.play().catch(()=>{});
     slideStart=performance.now(); cancelAnimationFrame(raf); raf=requestAnimationFrame(loop); scheduleIdle();
   }
   function pause(){
     playing=false; $("#playIcon").innerHTML='<path d="M8 5v14l11-7z"/>';
     if(currentVideo) currentVideo.pause();
+    if(gifCtl) gifPause(); else freezeGif();      // exact current frame where supported; snapshot fallback otherwise
     elapsedBeforePause+=performance.now()-slideStart; cancelAnimationFrame(raf); wake();
   }
   function togglePlay(){ playing?pause():play(); }
@@ -705,6 +983,9 @@
   // ---- Remove / reset ----
   function removeItem(itemIdx){
     const wasCurrent = order[pos]===itemIdx;
+    const it = items[itemIdx];
+    if(gifCtl && gifCtl.item===it) stopGif();
+    try{ if(it && it._gif){ it._gif.dec.close(); it._gif.cache.forEach(b=>b&&b.close&&b.close()); } }catch(e){}
     URL.revokeObjectURL(items[itemIdx].url); items[itemIdx]=null;
     const removedOi = order.indexOf(itemIdx);
     order = order.filter(i=>i!==itemIdx);
@@ -714,7 +995,7 @@
     if(wasCurrent) render(); else { updateCounter(); ensureThumbVisible(pos); renderStripWindow(); }
   }
   function resetToEmpty(){
-    pause(); items.forEach(it=>it&&URL.revokeObjectURL(it.url)); items.length=0; order=[]; pos=0;
+    pause(); clearGifOverlays(); items.forEach(it=>{ if(!it) return; URL.revokeObjectURL(it.url); try{ if(it._gif){ it._gif.dec.close(); it._gif.cache.forEach(b=>b&&b.close&&b.close()); } }catch(e){} }); items.length=0; order=[]; pos=0;
     mediaWrap.innerHTML=""; currentLayer=null; currentVideo=null; mounted.forEach(n=>n.remove()); mounted.clear(); stripTrack.style.width="0px";
     showScrubber(false);
     app.classList.remove("empty-hidden"); empty.style.display="";
@@ -736,11 +1017,21 @@
   function wake(){ if(immersive){ immersive=false; document.body.classList.remove("immersive"); } scheduleIdle(); }
   function toggleChrome(){ immersive=!immersive; document.body.classList.toggle("immersive",immersive); if(!immersive) scheduleIdle(); }
   function toggleFs(){ if(!document.fullscreenElement) app.requestFullscreen?.().catch(()=>{}); else document.exitFullscreen?.(); }
-  function setSpeed(ms){ interval=ms; $("#speedVal").textContent=fmtSpeed(ms); const sl=$("#speed"); sl.style.setProperty("--fill",((ms-sl.min)/(sl.max-sl.min)*100)+"%"); }
+  function setSpeed(ms){
+    ms = Math.min(60000, Math.max(500, Math.round(ms/10)*10));   // clamp 0.5–60s, 10ms precision
+    interval = ms;
+    const sl = $("#speed");
+    sl.value = ms;
+    $("#speedVal").value = fmtSpeed(ms);
+    sl.style.setProperty("--fill",((ms-sl.min)/(sl.max-sl.min)*100)+"%");
+  }
 
   // ---- Events ----
   $("#addBtn").onclick=$("#chooseBtn").onclick=()=>fileInput.click();
   fileInput.onchange=e=>{ addFiles(e.target.files); fileInput.value=""; };
+  const dirInput=$("#dirInput");
+  $("#addDirBtn").onclick=()=>dirInput.click();
+  dirInput.onchange=e=>{ addFiles(e.target.files); dirInput.value=""; };   // webkitRelativePath supplies the folder path
   $("#playBtn").onclick=togglePlay;
   $("#nextBtn").onclick=()=>{ next(); wake(); };
   $("#prevBtn").onclick=()=>{ prev(); wake(); };
@@ -762,8 +1053,46 @@
     }
   }
   audioBtn.onclick=()=>setAudio(!audioOn);
+
+  // click the filename chip to copy the file name (a web page can't reveal the file in Finder,
+  // so the workflow is: click to copy, then paste into Spotlight / Finder search)
+  let copyTimer=null, copyPrev="";
+  function clearCopyFlash(){ if(copyTimer){ clearTimeout(copyTimer); copyTimer=null; } filename.classList.remove("copied"); }
+  filename.title="Click: copy file name · ⌥-click: copy folder path (for files added as a folder)";
+  filename.addEventListener("click",async e=>{
+    const wantPath = e.altKey && !!filename.dataset.path;
+    const text = wantPath ? filename.dataset.path : filename.dataset.name;
+    if(!text) return;
+    try{ await navigator.clipboard.writeText(text); }
+    catch(err){   // clipboard API can be unavailable on file:// — fall back to execCommand
+      const ta=document.createElement("textarea"); ta.value=text;
+      ta.style.position="fixed"; ta.style.opacity="0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); }catch(_){}
+      ta.remove();
+    }
+    if(!copyTimer) copyPrev=filename.textContent;
+    clearTimeout(copyTimer);
+    filename.textContent = wantPath ? "path copied ✓"
+      : (e.altKey ? "no folder path · name copied" : "copied ✓");   // ⌥ on a pathless file: be explicit about why
+    filename.classList.add("copied");
+    copyTimer=setTimeout(()=>{
+      copyTimer=null;
+      if(filename.classList.contains("copied")){ filename.textContent=copyPrev; filename.classList.remove("copied"); }
+    },900);
+  });
+
   $("#helpBtn").onclick=()=>$("#help").classList.toggle("show");
   $("#speed").oninput=e=>setSpeed(+e.target.value);
+  $("#holdMinus").onclick=()=>setSpeed(interval-500);
+  $("#holdPlus").onclick=()=>setSpeed(interval+500);
+  const speedField=$("#speedVal");
+  speedField.addEventListener("focus",()=>speedField.select());
+  speedField.addEventListener("keydown",e=>{ if(e.key==="Enter") speedField.blur(); });
+  speedField.addEventListener("change",()=>{
+    const v=parseFloat(speedField.value.replace(",","."));
+    if(isFinite(v)&&v>0) setSpeed(v*1000); else setSpeed(interval);   // bad input: restore current
+  });
 
   document.addEventListener("keydown",e=>{
     if(e.target.tagName==="INPUT") return;
@@ -783,14 +1112,19 @@
     else if(e.key==="-"){ setSpeed(Math.min(60000,interval+500)); }
   });
 
-  ["mousemove","mousedown","touchstart"].forEach(ev=> app.addEventListener(ev,()=>{ if(playing) wake(); },{passive:true}));
+  ["mousemove","mousedown","touchstart"].forEach(ev=> app.addEventListener(ev,()=>{ if(playing||immersive) wake(); },{passive:true}));
 
   let dragDepth=0;
   window.addEventListener("dragenter",e=>{ e.preventDefault(); dragDepth++; document.body.classList.add("dragging"); });
   window.addEventListener("dragover",e=>e.preventDefault());
   window.addEventListener("dragleave",()=>{ dragDepth--; if(dragDepth<=0) document.body.classList.remove("dragging"); });
-  window.addEventListener("drop",e=>{ e.preventDefault(); dragDepth=0; document.body.classList.remove("dragging"); if(e.dataTransfer?.files?.length) addFiles(e.dataTransfer.files); });
+  window.addEventListener("drop",e=>{ e.preventDefault(); dragDepth=0; document.body.classList.remove("dragging"); if(e.dataTransfer) handleDrop(e.dataTransfer); });
   window.addEventListener("resize",()=>renderStripWindow());
+
+  // keep stage-anchored overlays (filename, scrubber, frame HUD) sitting just above the floating control bar
+  const setChromeH=()=>document.documentElement.style.setProperty("--controls-h",(controls.hidden?0:controls.offsetHeight)+"px");
+  new ResizeObserver(setChromeH).observe(controls);
+  setChromeH();
 
   reRollBtn.disabled = !shuffleOn;
   setSpeed(interval);
